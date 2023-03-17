@@ -12,3 +12,8 @@
     text-align: left;
   }
 }
+@media only screen and (max-width: 990px) {
+  .cardItem {
+    width: 44%;
+  }
+}
