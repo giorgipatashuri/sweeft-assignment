@@ -9,6 +9,26 @@ const CardsList = ({ id }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [fetching, setFetching] = useState(true);
   const [loading, setLoading] = useState(true);
+  console.log(id);
+  useEffect(() => {
+    setTimeout(() => {
+      axios
+        .get(
+          id
+            ? `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${id}/friends/${currentPage}/20`
+            : `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${currentPage}/20`,
+        )
+        .then((response) => {
+          setLoading(false);
+          setCardData([...response.data.list]);
+          setCurrentPage((prevstate) => prevstate + 1);
+        })
+        .finally(() => {
+          setLoading(false);
+          setFetching(false);
+        });
+    }, 1000);
+  }, [id]);
   useEffect(() => {
     if (fetching) {
       setTimeout(() => {
@@ -19,6 +39,7 @@ const CardsList = ({ id }) => {
               : `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${currentPage}/20`,
           )
           .then((response) => {
+            console.log('triggered');
             setLoading(false);
             setCardData([...cardData, ...response.data.list]);
             setCurrentPage((prevstate) => prevstate + 1);
@@ -36,7 +57,7 @@ const CardsList = ({ id }) => {
     return function () {
       document.removeEventListener('scroll', scrollHandler);
     };
-  }, []);
+  }, [id]);
 
   const scrollHandler = (e) => {
     if (
