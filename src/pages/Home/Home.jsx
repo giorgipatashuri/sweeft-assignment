@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Card from '../../components/Card/Card';
+import Loading from '../../components/Loading/Loading';
 import './Home.scss';
 const Home = () => {
   const [cardData, setCardData] = useState([]);
@@ -9,13 +10,22 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (fetching) {
-      axios
-        .get(`http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${currentPage}/20`)
-        .then((response) => {
-          setCardData([...cardData, ...response.data.list]);
-          setCurrentPage((prevstate) => prevstate + 1);
-        })
-        .finally(() => setFetching(false));
+      setTimeout(() => {
+        axios
+          .get(
+            `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${currentPage}/20`,
+          )
+          .then((response) => {
+            setLoading(false);
+            setCardData([...cardData, ...response.data.list]);
+            setCurrentPage((prevstate) => prevstate + 1);
+          })
+          .finally(() => {
+            console.log('test');
+            setLoading(false);
+            setFetching(false);
+          });
+      }, 1000);
     }
   }, [fetching]);
 
@@ -37,11 +47,13 @@ const Home = () => {
   };
   return (
     <div className='container'>
+      {loading && <Loading />}
       <div className='cardList'>
         {cardData.map((data, index) => (
           <Card data={data} key={`${index}_${data.name}`} />
         ))}
       </div>
+      {fetching && !loading && <Loading />}
     </div>
   );
 };
