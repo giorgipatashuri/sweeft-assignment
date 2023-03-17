@@ -1,0 +1,14 @@
+.cardItem {
+  margin: 10px;
+  border: 1px solid gray;
+  width: 23%;
+  cursor: pointer;
+  img {
+    width: 100%;
+  }
+  h3,
+  p {
+    padding: 2px 10px;
+    text-align: left;
+  }
+}
