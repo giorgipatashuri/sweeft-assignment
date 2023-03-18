@@ -9,7 +9,6 @@ const CardsList = ({ id }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [fetching, setFetching] = useState(true);
   const [loading, setLoading] = useState(true);
-  console.log(id);
   useEffect(() => {
     setTimeout(() => {
       axios
@@ -39,7 +38,6 @@ const CardsList = ({ id }) => {
               : `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${currentPage}/20`,
           )
           .then((response) => {
-            console.log('triggered');
             setLoading(false);
             setCardData([...cardData, ...response.data.list]);
             setCurrentPage((prevstate) => prevstate + 1);

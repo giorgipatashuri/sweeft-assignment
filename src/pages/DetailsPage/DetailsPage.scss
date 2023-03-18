@@ -57,3 +57,10 @@ header {
     flex-direction: column;
   }
 }
+@media (max-width: 500px) {
+  header {
+    img {
+      width: 70%;
+    }
+  }
+}
